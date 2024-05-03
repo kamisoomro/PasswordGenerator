@@ -1,10 +1,11 @@
-import { useCallback, useState,useEffect } from 'react'
+import { useCallback, useState,useEffect,useRef } from 'react'
 import './App.css'
 function App() {
   const [length,setLength] = useState(5);
   const [number,setNumber] = useState(false)
   const [charactar, setCharactar] = useState(false)
   const [password,setPassword] = useState('')
+  const passRef = useRef(null)
   const passwordGanerator = useCallback(()=>{
     let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     let pass = ''
@@ -22,6 +23,7 @@ useEffect(()=>{
   passwordGanerator()
 },[length,number,charactar,passwordGanerator])
 let copyPassword = useCallback(()=>{
+  passRef.current?.select()
   window.navigator.clipboard.writeText(password)
 },[password]) 
   return (
@@ -36,7 +38,7 @@ let copyPassword = useCallback(()=>{
         value={password}
         readOnly
         className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-        placeholder="Your Password"
+        placeholder="Your Password" ref={passRef}
       />
     </div>
     <div className='mb-4'>
